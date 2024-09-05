@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Road Anomalies</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>Real-Time Road Anomaly Data</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>S/N</th>
+                <th>Accel_X</th>
+                <th>Accel_Y</th>
+                <th>Accel_Z</th>
+                <th>Gyro_X</th>
+                <th>Gyro_Y</th>
+                <th>Gyro_Z</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
+                <th>Time</th>
+                <th>Speed</th>
+                <th>Vibration</th>
+                <th>Temperature</th>
+                <th>Anomaly</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{range $index, $data := .Data}}
+            <tr>
+                <td>{{add (mul (sub $.Page 1) 250) (add $index 1)}}</td> <!-- Sequential numbering -->
+                <td>{{$data.AccelX}}</td>
+                <td>{{$data.AccelY}}</td>
+                <td>{{$data.AccelZ}}</td>
+                <td>{{$data.GyroX}}</td>
+                <td>{{$data.GyroY}}</td>
+                <td>{{$data.GyroZ}}</td>
+                <td>{{$data.Latitude}}</td>
+                <td>{{$data.Longitude}}</td>
+                <td>{{$data.Time}}</td>
+                <td>{{$data.Speed}}</td>
+                <td>{{$data.Vibration}}</td>
+                <td>{{$data.Temperature}}</td>
+                <td>{{$data.Anomaly}}</td>
+            </tr>
+            {{end}}
+        </tbody>
+    </table>
+
+    <!-- Pagination controls -->
+    <div class="pagination">
+        {{if gt .Page 1}}
+        <a href="/data?page={{sub .Page 1}}">Previous</a>
+        {{end}}
+
+        {{range $page := .PaginationLinks}}
+        <a href="/data?page={{$page}}" class="{{if eq $.Page $page}}active{{end}}">{{$page}}</a>
+        {{end}}
+
+        {{if lt .Page .TotalPages}}
+        <a href="/data?page={{add .Page 1}}">Next</a>
+        {{end}}
+    </div>
+
+    <style>
+        .pagination a {
+            margin: 0 5px;
+            padding: 8px 16px;
+            text-decoration: none;
+            border: 1px solid #ddd;
+            color: #007bff;
+            border-radius: 5px;
+        }
+
+        .pagination a.active {
+            background-color: #007bff;
+            color: white;
+            border: 1px solid #007bff;
+        }
+
+        .pagination a:hover {
+            background-color: #ddd;
+        }
+    </style>
+</body>
+</html>
