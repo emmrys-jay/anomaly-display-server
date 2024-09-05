@@ -141,7 +141,7 @@ func getAnomalyData(pageNumber int) (PaginatedResponse, error) {
 			GyroZ:       v.GyrZ,
 			Latitude:    v.Latitude,
 			Longitude:   v.Longitude,
-			Time:        v.DateTime.Format("2006-01-02 15:04:05"),
+			Time:        v.DateTime.Add(1 * time.Hour).Format("2006-01-02 15:04:05"),
 			Speed:       v.Speed,
 			Vibration:   v.VibrationDetected,
 			Temperature: v.Temperature,
