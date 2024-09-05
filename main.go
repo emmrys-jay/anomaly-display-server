@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"os"
 	"strconv"
 	"time"
 
@@ -73,8 +74,13 @@ func main() {
 		logRequestData(http.StatusOK, time.Until(now), now, r)
 	})
 
-	log.Println("Starting server on :8080...")
-	err := http.ListenAndServe(":8080", nil)
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+
+	log.Println("Starting server on :" + port + "...")
+	err := http.ListenAndServe(":" + port, nil)
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
