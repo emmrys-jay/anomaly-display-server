@@ -114,10 +114,9 @@ func getAnomalyData(pageNumber int) (PaginatedResponse, error) {
 		totalPages++
 	}
 
-	sortingStage := bson.D{{Key: "$sort", Value: bson.D{{Key: "created_at", Value: 1}}}}
 	skipStage := bson.D{{Key: "$skip", Value: skip}}
 	limitStage := bson.D{{Key: "$limit", Value: pageSize}}
-	pipeline := mongo.Pipeline{sortingStage, skipStage, limitStage}
+	pipeline := mongo.Pipeline{skipStage, limitStage}
 
 	listOptions := options.Aggregate().SetAllowDiskUse(true)
 	cursor, err := coll.Aggregate(ctx, pipeline, listOptions)
